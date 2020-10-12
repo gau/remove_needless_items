@@ -1,5 +1,5 @@
 /*
-不要オブジェクトを削除.jsx
+不要なアイテムを削除.jsx
 Copyright (c) 2020 Toshiyuki Takahashi
 Released under the MIT license
 http://opensource.org/licenses/mit-license.php
@@ -20,8 +20,8 @@ http://www.graphicartsunit.com/
 	};
 
 	// Constant
-	const SCRIPT_TITLE = "不要オブジェクトを削除";
-	const SCRIPT_VERSION = "0.8.0";
+	const SCRIPT_TITLE = "不要なアイテムを削除";
+	const SCRIPT_VERSION = "0.8.1";
 	const HAIRLINE_ACCURACY = 2000;
 
 	// Load setting from json file
