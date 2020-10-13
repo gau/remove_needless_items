@@ -21,7 +21,7 @@ http://www.graphicartsunit.com/
 
 	// Constant
 	const SCRIPT_TITLE = "不要なアイテムを削除";
-	const SCRIPT_VERSION = "0.8.1";
+	const SCRIPT_VERSION = "0.8.5";
 	const HAIRLINE_ACCURACY = 2000;
 
 	// Load setting from json file
@@ -199,19 +199,23 @@ http://www.graphicartsunit.com/
 			if (item.contents.length < 1) {
 
 				// Point text
-				if (item.kind == TextType.POINTTEXT && settings.flagPointText) {
+				if (item.kind === TextType.POINTTEXT && settings.flagPointText) {
 					itemProps.isTarget = true;
 					itemProps.kind = 'pointText';
 				}
 				// Area text
-				if (item.kind == TextType.AREATEXT && settings.flagAreaText) {
-					itemProps.isTarget = true;
-					itemProps.kind = 'areaText';
+				if (item.kind === TextType.AREATEXT && settings.flagAreaText) {
+					if ((!item.textPath.stroked && !item.textPath.filled) || (settings.flagHairline && isHairlinePath(item.textPath))) {
+						itemProps.isTarget = true;
+						itemProps.kind = 'areaText';
+					}
 				}
 				// Path text
-				if (item.kind == TextType.PATHTEXT && settings.flagPathText) {
-					itemProps.isTarget = true;
-					itemProps.kind = 'pathText';
+				if (item.kind === TextType.PATHTEXT && settings.flagPathText) {
+					if ((!item.textPath.stroked && !item.textPath.filled) || (settings.flagHairline && isHairlinePath(item.textPath))) {
+						itemProps.isTarget = true;
+						itemProps.kind = 'pathText';
+					}
 				}
 			}
 
@@ -247,8 +251,9 @@ http://www.graphicartsunit.com/
 	// Get hairline path
 	function isHairlinePath(item) {
 		var b = true;
-		if (!item.filled || item.stroked || !isAllStraght(item) || item.pathPoints.length < 2) b = false;
-		if (b) {
+		if (!item.filled || item.stroked || !isAllStraght(item) || item.pathPoints.length < 2) {
+			b = false;
+		} else {
 			var allAngle = getAllAngle(item.pathPoints);
 			if (allAngle.length > 1) {
 				var baseAngle = allAngle[0];
